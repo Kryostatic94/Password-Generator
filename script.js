@@ -42,7 +42,8 @@ function generatePassword(lower, upper, number, symbol, length) {
     let generatedPassword = ''
     const typesCount = lower + upper + number + symbol
     const typesArr = [{lower}, {upper}, {number}, {symbol}].filter(item => Object.values(item)[0])
-    
+    let box =[]
+
     if(typesCount === 0) {
         return ''
     }
@@ -50,7 +51,8 @@ function generatePassword(lower, upper, number, symbol, length) {
     for(let i = 0; i < length; i += typesCount) {
         typesArr.forEach(type => {
             const funcName = Object.keys(type)[0]
-            generatedPassword += randomFunc[funcName]()
+            box.push(randomFunc[funcName]())
+            generatedPassword = shuffle(box).join('')
         })
     }
 
@@ -74,4 +76,19 @@ function getRandomNumber() {
 function getRandomSymbol() {
     const symbols = '!@#$%^&*(){}[]=<>/,.'
     return symbols[Math.floor(Math.random() * symbols.length)]
+}
+
+
+function shuffle(array) {
+    let currentIndex = array.length - 1
+    while (0 !== currentIndex) {
+      randomIndex = Math.floor(Math.random() * currentIndex)
+      currentIndex -= 1;
+
+      temp = array[currentIndex]
+      array[currentIndex] = array[randomIndex]
+      array[randomIndex] = temp
+    }
+  
+    return array;
 }
